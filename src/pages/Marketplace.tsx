@@ -9,8 +9,8 @@ import { NotaryCard } from "@/components/NotaryCard";
 
 const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("all");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("all");
 
   // Mock notary data
   const notaries = [
@@ -91,8 +91,8 @@ const Marketplace = () => {
   const filteredNotaries = notaries.filter(notary => {
     const matchesSearch = notary.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          notary.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesLocation = !selectedLocation || notary.location.includes(selectedLocation);
-    const matchesSpecialty = !selectedSpecialty || notary.specialties.includes(selectedSpecialty);
+    const matchesLocation = !selectedLocation || selectedLocation === "all" || notary.location.includes(selectedLocation);
+    const matchesSpecialty = !selectedSpecialty || selectedSpecialty === "all" || notary.specialties.includes(selectedSpecialty);
     
     return matchesSearch && matchesLocation && matchesSpecialty;
   });
@@ -132,7 +132,7 @@ const Marketplace = () => {
               <SelectValue placeholder="Location" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Locations</SelectItem>
+              <SelectItem value="all">All Locations</SelectItem>
               <SelectItem value="New York">New York</SelectItem>
               <SelectItem value="Los Angeles">Los Angeles</SelectItem>
               <SelectItem value="Chicago">Chicago</SelectItem>
@@ -147,7 +147,7 @@ const Marketplace = () => {
               <SelectValue placeholder="Specialty" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Specialties</SelectItem>
+              <SelectItem value="all">All Specialties</SelectItem>
               <SelectItem value="Real Estate">Real Estate</SelectItem>
               <SelectItem value="Contracts">Contracts</SelectItem>
               <SelectItem value="Wills">Wills</SelectItem>
@@ -203,8 +203,8 @@ const Marketplace = () => {
             <Button 
               onClick={() => {
                 setSearchTerm("");
-                setSelectedLocation("");
-                setSelectedSpecialty("");
+                setSelectedLocation("all");
+                setSelectedSpecialty("all");
               }}
             >
               Clear Filters

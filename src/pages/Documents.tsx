@@ -10,8 +10,8 @@ import { DocCard } from "@/components/DocCard";
 
 const Documents = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");
 
   // Mock documents data
@@ -83,8 +83,8 @@ const Documents = () => {
   const filteredDocuments = documents.filter(doc => {
     const matchesSearch = doc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          doc.type.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = !statusFilter || doc.status === statusFilter;
-    const matchesType = !typeFilter || doc.type.includes(typeFilter);
+    const matchesStatus = !statusFilter || statusFilter === "all" || doc.status === statusFilter;
+    const matchesType = !typeFilter || typeFilter === "all" || doc.type.includes(typeFilter);
     
     return matchesSearch && matchesStatus && matchesType;
   });
@@ -164,7 +164,7 @@ const Documents = () => {
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="verified">Verified</SelectItem>
               <SelectItem value="tokenized">Tokenized</SelectItem>
@@ -177,7 +177,7 @@ const Documents = () => {
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Types</SelectItem>
+              <SelectItem value="all">All Types</SelectItem>
               <SelectItem value="Contract">Contracts</SelectItem>
               <SelectItem value="Real Estate">Real Estate</SelectItem>
               <SelectItem value="Estate">Estate Planning</SelectItem>
@@ -242,11 +242,11 @@ const Documents = () => {
             </p>
             {(searchTerm || statusFilter || typeFilter) ? (
               <Button 
-                onClick={() => {
-                  setSearchTerm("");
-                  setStatusFilter("");
-                  setTypeFilter("");
-                }}
+              onClick={() => {
+                setSearchTerm("");
+                setStatusFilter("all");
+                setTypeFilter("all");
+              }}
                 variant="outline"
               >
                 Clear Filters
