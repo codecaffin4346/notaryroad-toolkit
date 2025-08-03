@@ -59,6 +59,11 @@ All colors MUST be HSL for proper theming.
     --shadow-elegant: 0 10px 30px -10px hsl(214 76% 25% / 0.3);
     --shadow-glow: 0 0 40px hsl(214 76% 35% / 0.4);
 
+    /* Glass morphism effects */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-backdrop: blur(10px);
+
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -125,5 +130,31 @@ All colors MUST be HSL for proper theming.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-backdrop);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  }
+  
+  .aurora-enhanced {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .aurora-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 40%, rgba(58, 41, 255, 0.1) 50%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
   }
 }

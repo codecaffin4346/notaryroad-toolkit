@@ -36,7 +36,7 @@ export const NotaryCard = ({
   const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
   
   return (
-    <Card className={`transition-all duration-200 hover:shadow-lg hover:scale-105 ${className}`}>
+    <Card className={`glass-card aurora-enhanced transition-all duration-200 hover:shadow-lg hover:scale-105 ${className}`}>
       <CardHeader className="pb-3">
         <div className="flex items-start space-x-4">
           <Avatar className="w-12 h-12">

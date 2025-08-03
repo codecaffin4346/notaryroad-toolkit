@@ -3,11 +3,19 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Shield, FileText, Coins, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MinimalLayout } from "@/layouts/MinimalLayout";
+import Aurora from "@/components/Aurora";
 
 const Home = () => {
   return (
     <MinimalLayout>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="relative">
+        <Aurora
+          colorStops={["#214776", "#FF94B4", "#3A29FF"]}
+          blend={0.3}
+          amplitude={0.8}
+          speed={0.6}
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Hero Section */}
         <section className="py-20 text-center">
           <div className="max-w-4xl mx-auto">
@@ -40,7 +48,7 @@ const Home = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
+            <Card className="text-center glass-card aurora-enhanced hover:scale-105 transition-transform duration-300">
               <CardHeader>
                 <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">Secure & Verified</h3>
@@ -52,7 +60,7 @@ const Home = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center glass-card aurora-enhanced hover:scale-105 transition-transform duration-300">
               <CardHeader>
                 <Coins className="w-12 h-12 text-accent mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">Tokenized Assets</h3>
@@ -64,7 +72,7 @@ const Home = () => {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center glass-card aurora-enhanced hover:scale-105 transition-transform duration-300">
               <CardHeader>
                 <FileText className="w-12 h-12 text-success mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">Easy Process</h3>
@@ -112,6 +120,7 @@ const Home = () => {
             <Link to="/register">Create Your Account</Link>
           </Button>
         </section>
+        </div>
       </div>
     </MinimalLayout>
   );

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Filter, MapPin } from "lucide-react";
 import { MainLayout } from "@/layouts/MainLayout";
 import { NotaryCard } from "@/components/NotaryCard";
+import Aurora from "@/components/Aurora";
 
 const Marketplace = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -104,7 +105,14 @@ const Marketplace = () => {
 
   return (
     <MainLayout>
-      <div className="space-y-8">
+      <div className="relative">
+        <Aurora
+          colorStops={["#214776", "#3A29FF", "#FF94B4"]}
+          blend={0.15}
+          amplitude={0.4}
+          speed={0.2}
+        />
+        <div className="relative z-10 space-y-8">
         {/* Header */}
         <div>
           <h1 className="text-3xl font-bold text-foreground mb-2">Notary Marketplace</h1>
@@ -211,6 +219,7 @@ const Marketplace = () => {
             </Button>
           </div>
         )}
+        </div>
       </div>
     </MainLayout>
   );

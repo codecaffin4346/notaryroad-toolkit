@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload as UploadIcon, FileText, X } from "lucide-react";
 import { MainLayout } from "@/layouts/MainLayout";
+import Aurora from "@/components/Aurora";
 
 const Upload = () => {
   const [dragOver, setDragOver] = useState(false);
@@ -50,7 +51,14 @@ const Upload = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-4xl mx-auto">
+      <div className="relative">
+        <Aurora
+          colorStops={["#214776", "#3A29FF", "#FF94B4"]}
+          blend={0.2}
+          amplitude={0.6}
+          speed={0.4}
+        />
+        <div className="relative z-10 max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Upload Document</h1>
           <p className="text-muted-foreground">
@@ -60,7 +68,7 @@ const Upload = () => {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Upload Section */}
-          <Card>
+          <Card className="glass-card aurora-enhanced">
             <CardHeader>
               <CardTitle>Document Upload</CardTitle>
             </CardHeader>
@@ -167,7 +175,7 @@ const Upload = () => {
           </Card>
 
           {/* Preview Section */}
-          <Card>
+          <Card className="glass-card aurora-enhanced">
             <CardHeader>
               <CardTitle>Document Preview</CardTitle>
             </CardHeader>
@@ -199,6 +207,7 @@ const Upload = () => {
               )}
             </CardContent>
           </Card>
+        </div>
         </div>
       </div>
     </MainLayout>

@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Wallet, Mail, Lock, User, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MinimalLayout } from "@/layouts/MinimalLayout";
+import Aurora from "@/components/Aurora";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,14 @@ const Login = () => {
 
   return (
     <MinimalLayout>
-      <div className="min-h-[calc(100vh-80px)] flex items-center justify-center p-6">
+      <div className="relative min-h-[calc(100vh-80px)]">
+        <Aurora
+          colorStops={["#3A29FF", "#214776", "#FF94B4"]}
+          blend={0.25}
+          amplitude={0.7}
+          speed={0.3}
+        />
+        <div className="relative z-10 flex items-center justify-center p-6">
         <div className="max-w-md w-full">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to NotaryROAD</h1>
@@ -43,7 +51,7 @@ const Login = () => {
             </p>
           </div>
 
-          <Card>
+          <Card className="glass-card aurora-enhanced">
             <CardHeader>
               <CardTitle className="text-center">Access Your Account</CardTitle>
             </CardHeader>
@@ -228,6 +236,7 @@ const Login = () => {
               </Link>
             </p>
           </div>
+        </div>
         </div>
       </div>
     </MinimalLayout>
