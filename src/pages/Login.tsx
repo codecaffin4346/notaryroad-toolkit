@@ -6,31 +6,118 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Wallet, Mail, Lock, User, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MinimalLayout } from "@/layouts/MinimalLayout";
 import Aurora from "@/components/Aurora";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    
     setIsLoading(true);
-    // Implement email login logic
-    setTimeout(() => setIsLoading(false), 2000);
+    
+    try {
+      // Simulate authentication
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Store user session (in a real app, you'd get this from your auth service)
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userEmail', email);
+      
+      toast({
+        title: "Welcome back!",
+        description: "You have been successfully signed in.",
+      });
+      
+      navigate('/dashboard');
+    } catch (error) {
+      toast({
+        title: "Sign in failed",
+        description: "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleWalletConnect = async () => {
     setIsLoading(true);
-    // Implement wallet connection logic
-    setTimeout(() => setIsLoading(false), 2000);
+    
+    try {
+      // Simulate wallet connection
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('walletConnected', 'true');
+      
+      toast({
+        title: "Wallet connected!",
+        description: "You have been successfully authenticated.",
+      });
+      
+      navigate('/dashboard');
+    } catch (error) {
+      toast({
+        title: "Wallet connection failed",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const fullName = formData.get('fullName') as string;
+    const email = formData.get('registerEmail') as string;
+    const password = formData.get('registerPassword') as string;
+    const confirmPassword = formData.get('confirmPassword') as string;
+    
+    if (password !== confirmPassword) {
+      toast({
+        title: "Password mismatch",
+        description: "Please ensure both passwords match.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsLoading(true);
-    // Implement registration logic
-    setTimeout(() => setIsLoading(false), 2000);
+    
+    try {
+      // Simulate account creation
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userName', fullName);
+      
+      toast({
+        title: "Account created!",
+        description: "Welcome to NotaryROAD!",
+      });
+      
+      navigate('/dashboard');
+    } catch (error) {
+      toast({
+        title: "Registration failed",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,9 +125,9 @@ const Login = () => {
       <div className="relative min-h-[calc(100vh-80px)]">
         <Aurora
           colorStops={["#3A29FF", "#214776", "#FF94B4"]}
-          blend={0.25}
-          amplitude={0.7}
-          speed={0.3}
+          blend={0.4}
+          amplitude={1.2}
+          speed={0.8}
         />
         <div className="relative z-10 flex items-center justify-center p-6">
         <div className="max-w-md w-full">
@@ -65,33 +152,35 @@ const Login = () => {
                 {/* Login Tab */}
                 <TabsContent value="login" className="space-y-4">
                   <form onSubmit={handleEmailLogin} className="space-y-4">
-                    <div>
-                      <Label htmlFor="email">Email Address</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="Enter your email"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="email">Email Address</Label>
+                       <div className="relative">
+                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="email"
+                           name="email"
+                           type="email"
+                           placeholder="Enter your email"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
-                    <div>
-                      <Label htmlFor="password">Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="password"
-                          type="password"
-                          placeholder="Enter your password"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="password">Password</Label>
+                       <div className="relative">
+                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="password"
+                           name="password"
+                           type="password"
+                           placeholder="Enter your password"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
                     <Button 
                       type="submit" 
@@ -134,75 +223,80 @@ const Login = () => {
                 {/* Register Tab */}
                 <TabsContent value="register" className="space-y-4">
                   <form onSubmit={handleRegister} className="space-y-4">
-                    <div>
-                      <Label htmlFor="fullName">Full Name</Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="fullName"
-                          type="text"
-                          placeholder="Enter your full name"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="fullName">Full Name</Label>
+                       <div className="relative">
+                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="fullName"
+                           name="fullName"
+                           type="text"
+                           placeholder="Enter your full name"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
-                    <div>
-                      <Label htmlFor="registerEmail">Email Address</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="registerEmail"
-                          type="email"
-                          placeholder="Enter your email"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="registerEmail">Email Address</Label>
+                       <div className="relative">
+                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="registerEmail"
+                           name="registerEmail"
+                           type="email"
+                           placeholder="Enter your email"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
-                    <div>
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="phone"
-                          type="tel"
-                          placeholder="Enter your phone number"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="phone">Phone Number</Label>
+                       <div className="relative">
+                         <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="phone"
+                           name="phone"
+                           type="tel"
+                           placeholder="Enter your phone number"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
-                    <div>
-                      <Label htmlFor="registerPassword">Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="registerPassword"
-                          type="password"
-                          placeholder="Create a strong password"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="registerPassword">Password</Label>
+                       <div className="relative">
+                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="registerPassword"
+                           name="registerPassword"
+                           type="password"
+                           placeholder="Create a strong password"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
-                    <div>
-                      <Label htmlFor="confirmPassword">Confirm Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                        <Input
-                          id="confirmPassword"
-                          type="password"
-                          placeholder="Confirm your password"
-                          className="pl-10"
-                          required
-                        />
-                      </div>
-                    </div>
+                     <div>
+                       <Label htmlFor="confirmPassword">Confirm Password</Label>
+                       <div className="relative">
+                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                         <Input
+                           id="confirmPassword"
+                           name="confirmPassword"
+                           type="password"
+                           placeholder="Confirm your password"
+                           className="pl-10"
+                           required
+                         />
+                       </div>
+                     </div>
 
                     <Button 
                       type="submit" 
